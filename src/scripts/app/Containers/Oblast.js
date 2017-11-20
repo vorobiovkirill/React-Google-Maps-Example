@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 
 import CityContainer from '../Containers/City';
+import { DEFAULT_LIST_OF_ADDRESSES_FOLDED } from '../Constants/Constants';
 import OblastView from '../Views/Oblast';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-class AdrressestList extends Component {
+class OblastContainer extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			folded: true,
+			folded: DEFAULT_LIST_OF_ADDRESSES_FOLDED,
 		};
 	}
 
@@ -60,4 +61,4 @@ class AdrressestList extends Component {
 		return this.oblastRender();
 	}
 }
-export default AdrressestList;
+export default OblastContainer;

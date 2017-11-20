@@ -3,10 +3,23 @@ const path = require('path');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const config = {
 
-	entry: './src/scripts/index.js',
+	devtool: 'source-map',
+
+	entry: {
+		main: [
+			'./src/scripts/index.js',
+		],
+		vendor: [
+			'react',
+			'react-google-maps',
+		],
+	},
 
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -30,34 +43,6 @@ const config = {
 			'node_modules',
 		],
 		extensions: ['.js', '.jsx', '.css', '.sass', '.scss', '.html'],
-	},
-
-	/**
-	 * @link https://webpack.github.io/docs/webpack-dev-server.html
-	 */
-	devServer: {
-		contentBase: path.resolve(__dirname, 'dist'),
-		compress: true,
-		historyApiFallback: true,
-		port: 8080,
-		inline: true,
-		open: true,
-		stats: {
-			colors: true,
-			hash: false,
-			version: false,
-			timings: false,
-			assets: false,
-			chunks: false,
-			modules: false,
-			reasons: false,
-			children: false,
-			source: false,
-			errors: true,
-			errorDetails: true,
-			warnings: false,
-			publicPath: false,
-		},
 	},
 
 	module: {
@@ -116,6 +101,39 @@ const config = {
 				minifyURLs: true,
 			},
 		}),
+
+		/**
+		 * @link https://webpack.js.org/plugins/commons-chunk-plugin/
+		 */
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			filename: 'js/vendor.js',
+			minChunks: Infinity,
+			children: true,
+		}),
+
+		/**
+			 * @link http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+			 */
+		new UglifyJsPlugin({
+			parallel: true,
+			uglifyOptions: {
+				ie8: false,
+				ecma: 6,
+				warnings: true,
+				mangle: true,
+				output: {
+					comments: false,
+					beautify: false,
+				},
+			},
+			warnings: true,
+		}),
+
+		/**
+		 * @link https://github.com/NMFR/optimize-css-assets-webpack-plugin
+		 */
+		new OptimizeCssAssetsPlugin(),
 
 		new webpack.HotModuleReplacementPlugin(),
 	],

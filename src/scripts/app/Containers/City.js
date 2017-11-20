@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 
-import CitiesView from '../Views/City';
+import CityView from '../Views/City';
+import { DEFAULT_LIST_OF_ADDRESSES_FOLDED } from '../Constants/Constants';
 import PointView from '../Views/Point';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-class CitiesList extends Component {
+class CityContainer extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			folded: true,
+			folded: DEFAULT_LIST_OF_ADDRESSES_FOLDED,
 		};
 	}
 
@@ -43,7 +44,7 @@ class CitiesList extends Component {
 		} = this.props;
 
 		return (
-			<CitiesView
+			<CityView
 				name={city.name}
 				onCityClick={() => this.onCityClick()}
 			>
@@ -52,8 +53,8 @@ class CitiesList extends Component {
 						? this.pointsRender(city.addresses, onPointClick)
 						: null
 				}
-			</CitiesView>
+			</CityView>
 		);
 	}
 }
-export default CitiesList;
+export default CityContainer;

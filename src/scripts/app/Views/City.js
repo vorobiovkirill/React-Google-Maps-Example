@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
-const CitiesView = ({ onCityClick, name, children }) => {
+const CityView = ({ onCityClick, name, children }) => {
 	return (
 		<li>
 			<span
@@ -16,4 +16,4 @@ const CitiesView = ({ onCityClick, name, children }) => {
 	);
 };
 
-export default CitiesView;
+export default CityView;
